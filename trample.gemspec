@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{trample}
-  s.version = "0.1.0"
+  s.version = "0.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["James Golick"]
-  s.date = %q{2009-06-04}
+  s.authors = ["James Golick", "Jeremy Friesen"]
+  s.date = %q{2009-06-25}
   s.default_executable = %q{trample}
   s.email = %q{james@giraffesoft.ca}
   s.executables = ["trample"]
@@ -42,12 +42,11 @@ Gem::Specification.new do |s|
      "test/trample_test.rb",
      "trample.gemspec"
   ]
-  s.has_rdoc = true
   s.homepage = %q{http://github.com/giraffesoft/trample}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.1}
-  s.summary = %q{TODO}
+  s.rubygems_version = %q{1.3.4}
+  s.summary = %q{A simple command line tool for stress testing remote resources.}
   s.test_files = [
     "test/cli_test.rb",
      "test/configuration_test.rb",
@@ -64,7 +63,7 @@ Gem::Specification.new do |s|
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
-    s.specification_version = 2
+    s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
     else

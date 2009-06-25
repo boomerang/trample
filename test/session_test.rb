@@ -77,5 +77,38 @@ class SessionTest < Test::Unit::TestCase
       Trample::Session.new(@config).trample
     end
   end
+
+  should 'should pass headers on get' do
+    @config = Trample::Configuration.new do
+      iterations  2
+      get  "http://google.com", :headers => {:accept => 'text/html'}
+    end
+    mock_get('http://google.com', :accept => 'text/html', :times => 2)
+
+    @session = Trample::Session.new(@config)
+    @session.trample
+
+    assert_equal 200, @session.last_response.code
+  end
+
+  should 'should pass headers on post' do
+    @config = Trample::Configuration.new do
+      iterations  1
+      login do
+        post "http://google.com/login", :headers => {:accept => 'text/html'} do
+          {:user => "xyz", :password => "swordfish"}
+        end
+      end
+    end
+    mock_post('http://google.com/login', :payload => {:user => "xyz", :password => "swordfish"}, :accept => 'text/html', :times => 1)
+
+    @session = Trample::Session.new(@config)
+    @session.trample
+
+    assert_equal 200, @session.last_response.code
+  end
+
+
+
 end
 

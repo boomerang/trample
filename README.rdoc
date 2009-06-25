@@ -29,9 +29,15 @@ Trample uses a ruby DSL for configuration.
     get  "http://yoursite.com/someresources/:id" do
       {:id => SomeResource.random.id}
     end
+
+    # By default, get will accept 'application/xml', so you may run into
+    # odd behavior with rails respond_to blocks.  This will allow you
+    # to send a request that Rails will handle and return a 200 instead of
+    # a 406 status message.
+    get "http://yoursite.com/path/to/resource", :headers => {:accept => 'text/html'}
   end
 
-The above configuration will start 5 (concurrency) sessions by logging in as a random user at the url in the login block. Then, it'll hit the two urls underneath it 10 (iterations) times during each session.
+The above configuration will start 5 (concurrency) sessions by logging in as a random user at the url in the login block. Then, it'll hit the three urls underneath it 10 (iterations) times during each session.
 
 To run trample, save your configuration somewhere and run:
 

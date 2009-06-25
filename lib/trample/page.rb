@@ -1,10 +1,20 @@
 module Trample
   class Page
-    attr_reader :request_method
+    attr_reader :request_method, :headers
 
-    def initialize(request_method, url, parameters = {})
+    def initialize(request_method, url, *args)
       @request_method = request_method
       @url            = url
+
+      parameters = args.pop
+      if parameters.respond_to?(:call)
+        if options = args.shift
+          @headers = options.delete(:headers) || options.delete('headers')
+        end
+      elsif parameters
+        @headers = parameters.delete(:headers) || parameters.delete('headers') || {}
+      end
+      @headers ||= {}
       @parameters     = parameters
     end
 
@@ -24,7 +34,7 @@ module Trample
     
     protected
       def proc_params?
-        @parameters.is_a?(Proc)
+        @parameters.respond_to?(:call)
       end
 
       def interpolated_url

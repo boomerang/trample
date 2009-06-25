@@ -71,5 +71,33 @@ class ConfigurationTest < Test::Unit::TestCase
       assert_not_equal non_identical_config, @config
     end
   end
+  context 'with headers and explicit parameters' do
+    setup do
+      @config = Trample::Configuration.new do
+        get 'http://google.com/:id', :headers => {:accept => 'text/html'} do
+          {:id => 5}
+        end
+        post 'http://google.com/:id', :headers => {:accept => 'text/html'} do
+          {:id => 2}
+        end
+      end
+    end
+
+    should "set the headers for :get" do
+      assert_equal({:accept => 'text/html'}, @config.pages.first.headers)
+    end
+
+    should "set the headers for :post" do
+      assert_equal({:accept => 'text/html'}, @config.pages.last.headers)
+    end
+
+    should "allow headers and parameters to be passed for :get" do
+      assert_equal('http://google.com/5', @config.pages.first.url)
+    end
+
+    should "allow headers and parameters to be passed for :post" do
+      assert_equal('http://google.com/2', @config.pages.last.url)
+    end
+  end
 end
 

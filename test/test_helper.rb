@@ -16,26 +16,38 @@ class Test::Unit::TestCase
   end
 
   def mock_get(url, opts={})
-    mock(RestClient).get(url, :cookies => opts[:cookies] || {}).times(opts[:times]) do
+    return_cookies = opts.delete(:return_cookies) || {}
+    opt_times = opts.delete(:times) || 1
+    opts[:cookies] ||= {}
+
+    mock(RestClient).get(url, opts).times(opt_times) do
       response = RestClient::Response.new("", stub!)
-      stub(response).cookies { opts[:return_cookies] || {} }
+      stub(response).cookies { return_cookies }
       stub(response).code { 200 }
     end
   end
 
   def mock_post(url, opts={})
-    mock(RestClient).post(url, opts[:payload],
-                               :cookies => opts[:cookies] || {}).times(opts[:times]) do
+    payload = opts.delete(:payload)
+    return_cookies = opts.delete(:return_cookies) || {}
+    opt_times = opts.delete(:times) || 1
+    opts[:cookies] ||= {}
+
+    mock(RestClient).post(url, payload, opts).times(opt_times) do
       response = RestClient::Response.new("", stub!)
-      stub(response).cookies { opts[:return_cookies] || {} }
+      stub(response).cookies { return_cookies }
       stub(response).code { 200 }
     end
   end
 
   def stub_get(url, opts = {})
-    stub(RestClient).get(url, :cookies => opts[:cookies] || {}).times(opts[:times]) do
+    return_cookies = opts.delete(:return_cookies) || {}
+    opt_times = opts.delete(:times) || 1
+    opts[:cookies] ||= {}
+
+    stub(RestClient).get(url, opts).times(opt_times) do
       response = RestClient::Response.new("", stub!)
-      stub(response).cookies { opts[:return_cookies] || {} }
+      stub(response).cookies { return_cookies }
       stub(response).code { 200 }
     end
   end

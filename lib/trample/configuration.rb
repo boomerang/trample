@@ -17,12 +17,16 @@ module Trample
       @iterations
     end
 
-    def get(url, &block)
-      @pages << Page.new(:get, url, block || {})
+    def get(url, *args, &block)
+      args << block if block_given?
+
+      @pages << Page.new(:get, url, *args)
     end
 
-    def post(url, params = nil, &block)
-      @pages << Page.new(:post, url, params || block)
+    def post(url, *args, &block)
+      args << block if block_given?
+
+      @pages << Page.new(:post, url, *args)
     end
 
     def login

@@ -27,6 +27,33 @@ class PageTest < Test::Unit::TestCase
     end
   end
 
+  context "with headers and explicit parameters" do
+    setup do
+      @page = Trample::Page.new(:get, 'http://google.com/:id', :headers => {:accepts => 'text/html'}, :id => 5)
+    end
+    should 'extract headers from parameters' do
+      assert_equal({:accepts => 'text/html'}, @page.headers)
+    end
+
+    should 'omit the headers from the parameters' do
+      assert_equal({:id => 5}, @page.parameters)
+    end
+  end
+
+  context 'with headers and interpoloated parameters' do
+    setup do
+      @page = Trample::Page.new(:get, 'http://google.com/:id', {:headers => {:accepts => 'text/html'}}, lambda { {:id => 5}})
+    end
+
+    should 'extract headers from parameters' do
+      assert_equal( {:accepts => 'text/html'}, @page.headers)
+    end
+
+    should 'interpolate parameters' do
+      assert_equal( {:id => 5}, @page.parameters)
+    end
+  end
+
   context "Block-based request parameters for POST requests" do
     setup do
       @page = Trample::Page.new(:post, "http://google.com/:id", lambda { { :id => 1, :username => "joetheuser" } })
@@ -51,7 +78,7 @@ class PageTest < Test::Unit::TestCase
     end
 
     should "interpolate a different parameter each time" do
-      page = Trample::Page.new(:get, "http://mysite.com/somethings/:id", lambda { {:id => rand(10)} })
+      page = Trample::Page.new(:get, "http://mysite.com/somethings/:id", lambda { {:id => rand(1000)} })
       assert_not_equal page.url, page.url
     end
   end
