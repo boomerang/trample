@@ -82,5 +82,15 @@ class PageTest < Test::Unit::TestCase
       assert_not_equal page.url, page.url
     end
   end
+
+  context "A page with port number and block based parameters" do
+    setup do
+      @page = Trample::Page.new(:get, "http://localhost:3000/somethings/:id", lambda { {:id => 1} })    
+    end
+
+    should "not interpolate the port" do
+      assert_equal "http://localhost:3000/somethings/1", @page.url
+    end
+  end
 end
 
