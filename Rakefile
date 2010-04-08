@@ -4,7 +4,7 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "trample"
+    gem.name = "boomerang-trample"
     gem.summary = %Q{A simple command line tool for stress testing remote resources.}
     gem.email = "makesson@csc.com"
     gem.homepage = "http://github.com/boomerang/trample"
