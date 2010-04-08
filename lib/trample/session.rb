@@ -12,12 +12,14 @@ module Trample
     end
 
     def trample
+      start_time = Time.now
       hit @config.login unless @config.login.nil?
       @config.iterations.times do
         @config.pages.each do |p|
           hit p
         end
       end
+      logger.info "#{Thread.current} duration: #{Time.now.to_f - start_time.to_f}s"
     end
 
     protected
@@ -27,6 +29,7 @@ module Trample
         # because rr keeps a reference to the arguments, not a copy. ah well.
         @cookies = cookies.merge(last_response.cookies)
         logger.info "#{page.request_method.to_s.upcase} #{page.url} #{response_times.last}s #{last_response.code}"
+        Thread.current[:result] = @last_response
       end
 
       def request(page)

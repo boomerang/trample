@@ -6,9 +6,18 @@ begin
   Jeweler::Tasks.new do |gem|
     gem.name = "trample"
     gem.summary = %Q{A simple command line tool for stress testing remote resources.}
-    gem.email = "james@giraffesoft.ca"
-    gem.homepage = "http://github.com/giraffesoft/trample"
+    gem.email = "makesson@csc.com"
+    gem.homepage = "http://github.com/boomerang/trample"
     gem.authors = ["James Golick", 'Jeremy Friesen']
+
+    gem.add_dependency "rest-client"
+    gem.add_dependency "thor"
+    gem.add_dependency "log4r"
+    gem.add_development_dependency "rake"
+    gem.add_development_dependency "shoulda"
+    gem.add_development_dependency "rr"
+    gem.add_development_dependency "jeweler"
+    
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
 rescue LoadError

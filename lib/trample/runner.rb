@@ -10,7 +10,8 @@ module Trample
     end
 
     def trample
-      logger.info "Starting trample..."
+      start_time = Time.now
+      logger.info "Starting trample at #{start_time}..."
 
       config.concurrency.times do
         thread = Thread.new(@config) do |c|
@@ -21,7 +22,7 @@ module Trample
 
       threads.each { |t| t.join }
 
-      logger.info "Trample completed..."
+      logger.info "Trample completed at #{Time.now}, duration #{Time.now.to_f - start_time.to_f}s ..."
     end
   end
 end

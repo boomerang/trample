@@ -17,6 +17,15 @@ Trample uses a ruby DSL for configuration.
   Trample.configure do
     concurrency 5
     iterations  10
+    
+    #
+    # GETs & POSTs that follow are executed sequentially inside a thread.
+    # Results are stored in thread local storage in Thread.current[:result]
+    # Any intermediate results you want to use also need to go into thread local storage!
+    #
+    # YOU HAVE BEEN WARNED!
+    #
+
     login do
       post "http://yoursite.com/login" do
         {:username => User.random.username, :password => "swordfish"}
